@@ -1,9 +1,7 @@
 #include "test.h"
 #include "vector.h"
 
-
-void test_impl()
-{
+void test_impl(){
   struct Vector *vector = vector_new_with_options(2, true);
 
   assert_true(vector_push(vector, "12345"));
@@ -15,6 +13,7 @@ void test_impl()
   assert_num_equal(vector_capacity(vector), 4);
 
   void *item = vector_pop(vector);
+
   assert_string_equal(item, "ABCDE");
   item = vector_pop(vector);
   assert_string_equal(item, "abcde");
@@ -30,9 +29,6 @@ void test_impl()
   vector_release(vector);
 }
 
-
-int main()
-{
+int main(){
   test_run(test_impl);
 }
-

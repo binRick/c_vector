@@ -2,9 +2,7 @@
 #include "vector.h"
 #include <stdlib.h>
 
-
-void test_impl()
-{
+void test_impl(){
   struct Vector *vector = vector_new_with_options(2, true);
 
   vector_push(vector, "test");
@@ -18,8 +16,7 @@ void test_impl()
 
   void **array = vector_to_array(vector);
 
-  for (size_t index = 0; index < vector_size(vector); index++)
-  {
+  for (size_t index = 0; index < vector_size(vector); index++) {
     assert_string_equal(array[index], "test");
   }
   assert_true(array[vector_size(vector)] == NULL);
@@ -28,9 +25,6 @@ void test_impl()
   free(array);
 }
 
-
-int main()
-{
+int main(){
   test_run(test_impl);
 }
-

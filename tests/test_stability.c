@@ -2,28 +2,23 @@
 #include "vector.h"
 #include <stdlib.h>
 
-enum Type
-{
+enum Type {
   PREPEND,
   PUSH,
   INSERT,
   SET,
 };
 
-struct Item
-{
+struct Item {
   enum Type type;
 };
 
-
-void test_impl()
-{
+void test_impl(){
   struct Vector *vector = vector_new_with_options(2, true);
 
   size_t        loops = 100;
 
-  for (size_t index = 0; index < loops; index++)
-  {
+  for (size_t index = 0; index < loops; index++) {
     struct Item *item = malloc(sizeof(struct Item));
     item->type = PUSH;
     assert_true(vector_push(vector, item));
@@ -50,13 +45,14 @@ void test_impl()
   }
 
   void **array = vector_to_array(vector);
+
   assert_true(array != NULL);
   free(array);
   size_t size = vector_size(vector);
+
   assert_num_equal(size, loops * 2);
 
-  for (size_t index = 0; index < size; index++)
-  {
+  for (size_t index = 0; index < size; index++) {
     struct Item *item = (struct Item *)vector_get(vector, index);
     free(item);
   }
@@ -69,9 +65,6 @@ void test_impl()
   vector_release(vector);
 } /* test_impl */
 
-
-int main()
-{
+int main(){
   test_run(test_impl);
 }
-

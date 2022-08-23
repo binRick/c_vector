@@ -2,9 +2,7 @@
 #include "vector.h"
 #include <stdlib.h>
 
-
-void test_impl()
-{
+void test_impl(){
   struct Vector *vector = vector_new_with_options(2, true);
 
   assert_true(vector_set(vector, 1, "12345") == NULL);
@@ -29,9 +27,6 @@ void test_impl()
   free(array);
 }
 
-
-int main()
-{
+int main(){
   test_run(test_impl);
 }
-

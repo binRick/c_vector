@@ -1,9 +1,7 @@
 #include "test.h"
 #include "vector.h"
 
-
-void test_impl()
-{
+void test_impl(){
   struct Vector *vector = vector_new();
 
   vector_push(vector, "test");
@@ -19,9 +17,6 @@ void test_impl()
   vector_release(vector);
 }
 
-
-int main()
-{
+int main(){
   test_run(test_impl);
 }
-
