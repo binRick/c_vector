@@ -4,12 +4,14 @@
 #include <stddef.h>
 ///////////////////////////////////////////////////////////////#
 
+typedef int (^vector_item_handler_block)(size_t, void *);
 struct Vector;
 
 struct Vector *vector_sort(struct Vector *, int (*sort_function)(const void *, const void *));
 
 struct Vector *vector_new(void);
 struct Vector *vector_new_with_options(const size_t /* initial_size */, const bool /* allow_resize */);
+///////////////////////////////////////////////////////////////#
 ///////////////////////////////////////////////////////////////#
 
 bool vector_is_released(struct Vector *);
@@ -37,4 +39,5 @@ bool vector_insert(struct Vector *, size_t /* index */, void *);
 void *vector_remove(struct Vector *, size_t /* index */);
 
 void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM));
+void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb);
 ///////////////////////////////////////////////////////////////#

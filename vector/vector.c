@@ -314,6 +314,21 @@ static bool _vector_set_capacity(struct Vector *vector, const size_t size){
   return(true);
 }
 
+int block_callback(vector_item_handler_block cb, size_t i, void *I){
+  return(cb(i, I));
+}
+
+void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb){
+  for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
+    fprintf(stdout, "    FOR_EACH_VECTOR>.......... #%lu                 \n", __i__);
+    void *VAL = (void *)vector_get(VECTOR, __i__);
+    int  b    = cb(__i__, VAL);
+    if (b == -1) {
+      break;
+    }
+  }
+}
+
 void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM)){
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
     fprintf(stdout, "    FOR_EACH_VECTOR>.......... #%lu                 \n", __i__);

@@ -10,9 +10,7 @@ int print_item(size_t i, void *I){
   printf("Handling %lu: %s\n", i, (char *)I);
   return(((i > 3) ? -1 : 0));
 }
-
-////////////////////////////////////////////
-TEST t_vector_for_each_test(){
+struct Vector *init_vector(){
   struct Vector *v = vector_new();
   char          *i[10];
 
@@ -28,6 +26,24 @@ TEST t_vector_for_each_test(){
   vector_push(v, (void *)i[3]);
   vector_push(v, (void *)i[4]);
   vector_push(v, (void *)i[5]);
+  return(v);
+}
+
+////////////////////////////////////////////
+TEST t_vector_for_each_block_test(){
+  struct Vector *v = init_vector();
+
+  vector_foreach_block(v, ^ int (size_t i, void *I){
+    printf("[BLOCK] Handling %lu: %s\n", i, (char *)I);
+    return(((i > 2) ? -1 : 0));
+  });
+
+  PASS();
+}
+
+TEST t_vector_for_each_test(){
+  struct Vector *v = init_vector();
+
   printf("%lu\n", vector_size(v));
   vector_foreach(v, print_item);
   PASS();
@@ -35,6 +51,7 @@ TEST t_vector_for_each_test(){
 
 SUITE(s_vector_for_each_test) {
   RUN_TEST(t_vector_for_each_test);
+  RUN_TEST(t_vector_for_each_block_test);
 }
 
 GREATEST_MAIN_DEFS();
