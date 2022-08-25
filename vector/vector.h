@@ -4,7 +4,6 @@
 #include <stddef.h>
 ///////////////////////////////////////////////////////////////#
 
-typedef int (^vector_item_handler_block)(size_t, void *);
 struct Vector;
 
 struct Vector *vector_sort(struct Vector *, int (*sort_function)(const void *, const void *));
@@ -38,6 +37,14 @@ bool vector_prepend(struct Vector *, void *);
 bool vector_insert(struct Vector *, size_t /* index */, void *);
 void *vector_remove(struct Vector *, size_t /* index */);
 
+///////////////////////////////////////////////////////////////#
+typedef int (^vector_item_handler_block)(size_t, void *);
 void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM));
 void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb);
+///////////////////////////////////////////////////////////////#
+#define VECTOR_FOREACH_AUTOCAST(VECTOR, TYPE, CALLBACK)    {       \
+    vector_foreach_block(VECTOR, ^ int (size_t INDEX, void *ITEM){ \
+      return(CALLBACK(INDEX, (TYPE)ITEM));                         \
+    });                                                            \
+}
 ///////////////////////////////////////////////////////////////#
