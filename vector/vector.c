@@ -1,7 +1,10 @@
 #include <stdbool.h>
+#include <stddef.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <unistd.h>
 ///////////////////////////
 #include "vector/vector.h"
 ///////////////////////////
@@ -17,6 +20,8 @@ static bool _vector_clear(struct Vector *);
 static bool _vector_set_capacity_with_buffer(struct Vector *, size_t);
 static bool _vector_set_capacity(struct Vector *, size_t);
 ///////////////////////////
+
+size_t vector_size(struct Vector *vector);
 
 struct Vector *vector_new_with_options(const size_t initial_size, const bool allow_resize){
   size_t size = 1;
@@ -128,7 +133,7 @@ void **vector_to_array(struct Vector *vector){
     return(NULL);
   }
 
-  void **buffer = malloc((vector->size + 1) * sizeof(void *));
+  void **buffer = calloc((vector->size + 1), sizeof(void *));
   buffer[vector->size] = 0;
 
   for (size_t index = 0; index < vector->size; index++) {
@@ -309,10 +314,13 @@ static bool _vector_set_capacity(struct Vector *vector, const size_t size){
   return(true);
 }
 
-void FOR_EACH_VECTOR(struct Vector *VECTOR, void (*HANDLER)(size_t INDEX, void *HANDLED_ITEM)){
+void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM)){
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
     fprintf(stdout, "    FOR_EACH_VECTOR>.......... #%lu                 \n", __i__);
     void *VAL = (void *)vector_get(VECTOR, __i__);
-    HANDLER(__i__, VAL);
+    int  b    = HANDLER(__i__, VAL);
+    if (b == -1) {
+      break;
+    }
   }
 }

@@ -1,0 +1,46 @@
+////////////////////////////////////////////
+#include <stdio.h>
+////////////////////////////////////////////
+#include "vector-for-each-test/vector-for-each-test.h"
+////////////////////////////////////////////
+#include "c_greatest/greatest/greatest.h"
+#include "c_vector/vector/vector.h"
+
+int print_item(size_t i, void *I){
+  printf("Handling %lu: %s\n", i, (char *)I);
+  return(((i > 3) ? -1 : 0));
+}
+
+////////////////////////////////////////////
+TEST t_vector_for_each_test(){
+  struct Vector *v = vector_new();
+  char          *i[10];
+
+  i[0] = "aaaaaaaaaaaaa";
+  i[1] = "bbbbbbbbbbbbb";
+  i[2] = "ccccccccccccc";
+  i[3] = "dddddddddddd";
+  i[4] = "eeeeeeeeEEEEE";
+  i[5] = "ffffffffffff";
+  vector_push(v, (void *)i[0]);
+  vector_push(v, (void *)i[1]);
+  vector_push(v, (void *)i[2]);
+  vector_push(v, (void *)i[3]);
+  vector_push(v, (void *)i[4]);
+  vector_push(v, (void *)i[5]);
+  printf("%lu\n", vector_size(v));
+  vector_foreach(v, print_item);
+  PASS();
+}
+
+SUITE(s_vector_for_each_test) {
+  RUN_TEST(t_vector_for_each_test);
+}
+
+GREATEST_MAIN_DEFS();
+
+int main(const int argc, const char **argv) {
+  GREATEST_MAIN_BEGIN();
+  RUN_SUITE(s_vector_for_each_test);
+  GREATEST_MAIN_END();
+}
