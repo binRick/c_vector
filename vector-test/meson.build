@@ -27,8 +27,8 @@ if get_option('enable-binaries')
      c_args: vector_test_c_args,
      install: false,
   )
-  #test('vector-test', 
-  #  vector_test_exec, args: ['-v','-a'],
-  #  workdir: vector_test_test_dir,
-  #)
+  test('vector-test', 
+    vector_test_exec, args: ['-v','-a'],
+    workdir: vector_test_test_dir,
+  )
 endif
