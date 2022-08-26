@@ -9,6 +9,7 @@ vector_for_each_test_include_dirs = [
 vector_for_each_test_deps = [
   c_greatest_dep,
   c_vector_dep,
+  vector_test_utils_dep,
 ]
 vector_for_each_test_c_args = [
 ]
@@ -26,8 +27,8 @@ if get_option('enable-binaries')
      c_args: vector_for_each_test_c_args,
      install: false,
   )
-  #test('vector-for-each-test', 
-  #  vector_for_each_test_exec, args: ['-v','-a'],
-  #  workdir: vector_for_each_test_test_dir,
-  #)
+  test('vector-for-each-test', 
+    vector_for_each_test_exec, args: ['-v','-a'],
+    workdir: vector_for_each_test_test_dir,
+  )
 endif

@@ -1,3 +1,4 @@
+#include "vector/vector.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -5,8 +6,6 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
-///////////////////////////
-#include "vector/vector.h"
 ///////////////////////////
 struct Vector {
   bool   released;
@@ -19,9 +18,8 @@ struct Vector {
 static bool _vector_clear(struct Vector *);
 static bool _vector_set_capacity_with_buffer(struct Vector *, size_t);
 static bool _vector_set_capacity(struct Vector *, size_t);
-///////////////////////////
-
 size_t vector_size(struct Vector *vector);
+///////////////////////////
 
 struct Vector *vector_new_with_options(const size_t initial_size, const bool allow_resize){
   size_t size = 1;
@@ -314,15 +312,9 @@ static bool _vector_set_capacity(struct Vector *vector, const size_t size){
   return(true);
 }
 
-int block_callback(vector_item_handler_block cb, size_t i, void *I){
-  return(cb(i, I));
-}
-
 void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb){
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
-    fprintf(stdout, "    FOR_EACH_VECTOR>.......... #%lu                 \n", __i__);
-    void *VAL = (void *)vector_get(VECTOR, __i__);
-    int  b    = cb(__i__, VAL);
+    int b = cb(__i__, (void *)vector_get(VECTOR, __i__));
     if (b == -1) {
       break;
     }
@@ -331,11 +323,34 @@ void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb){
 
 void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM)){
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
-    fprintf(stdout, "    FOR_EACH_VECTOR>.......... #%lu                 \n", __i__);
-    void *VAL = (void *)vector_get(VECTOR, __i__);
-    int  b    = HANDLER(__i__, VAL);
+    int b = HANDLER(__i__, (void *)vector_get(VECTOR, __i__));
     if (b == -1) {
       break;
     }
   }
+}
+
+struct Vector *vector_filter_new(struct Vector *VECTOR, vector_item_filter cb){
+  struct Vector *NEW_VECTOR = vector_new();
+
+  for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
+    if (true == cb(__i__, (void *)vector_get(VECTOR, __i__))) {
+      vector_push(NEW_VECTOR, (void *)vector_get(VECTOR, __i__));
+    }
+  }
+  return(NEW_VECTOR);
+}
+
+struct Vector *vector_filter_mut(struct Vector *VECTOR, vector_item_filter cb){
+  fprintf(stderr, "     Starting with array of %lu elements\n", vector_size(VECTOR));
+  for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
+    if (false == cb(__i__, (void *)vector_get(VECTOR, __i__))) {
+      fprintf(stderr, "       Removing #%lu\n", __i__);
+      vector_remove(VECTOR, __i__);
+    }else{
+      fprintf(stderr, "       Not Removing #%lu\n", __i__);
+    }
+  }
+  fprintf(stderr, "     Returning array of %lu elements\n", vector_size(VECTOR));
+  return(VECTOR);
 }

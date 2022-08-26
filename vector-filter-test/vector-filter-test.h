@@ -22,3 +22,4 @@
 #include <unistd.h>
 //////////////////////////////////////
 #include "c_vector/vector-test-utils/vector-test-utils.h"
+#include "c_vector/vector/vector.h"

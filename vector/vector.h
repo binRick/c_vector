@@ -39,12 +39,21 @@ void *vector_remove(struct Vector *, size_t /* index */);
 
 ///////////////////////////////////////////////////////////////#
 typedef int (^vector_item_handler_block)(size_t, void *);
+typedef bool (^vector_item_filter)(size_t, void *);
+///////////////////////////////////////////////////////////////#
 void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM));
 void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb);
+struct Vector *vector_filter_new(struct Vector *VECTOR, vector_item_filter cb);
+struct Vector *vector_filter_mut(struct Vector *VECTOR, vector_item_filter cb);
 ///////////////////////////////////////////////////////////////#
 #define VECTOR_FOREACH_AUTOCAST(VECTOR, TYPE, CALLBACK)    {       \
     vector_foreach_block(VECTOR, ^ int (size_t INDEX, void *ITEM){ \
-      return(CALLBACK(INDEX, (TYPE)ITEM));                         \
+      return(^ int CALLBACK(INDEX, (TYPE)ITEM));                   \
     });                                                            \
 }
 ///////////////////////////////////////////////////////////////#
+#define VECTOR_FOREACH_AUTOCAST1(VECTOR, TYPE, CB)         {       \
+    vector_foreach_block(VECTOR, ^ int (size_t INDEX, void *ITEM){ \
+      return(CB((size_t)INDEX, (TYPE)ITEM));                       \
+    });                                                            \
+}
