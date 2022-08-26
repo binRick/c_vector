@@ -342,15 +342,10 @@ struct Vector *vector_filter_new(struct Vector *VECTOR, vector_item_filter cb){
 }
 
 struct Vector *vector_filter_mut(struct Vector *VECTOR, vector_item_filter cb){
-  fprintf(stderr, "     Starting with array of %lu elements\n", vector_size(VECTOR));
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
     if (false == cb(__i__, (void *)vector_get(VECTOR, __i__))) {
-      fprintf(stderr, "       Removing #%lu\n", __i__);
       vector_remove(VECTOR, __i__);
-    }else{
-      fprintf(stderr, "       Not Removing #%lu\n", __i__);
     }
   }
-  fprintf(stderr, "     Returning array of %lu elements\n", vector_size(VECTOR));
   return(VECTOR);
 }
