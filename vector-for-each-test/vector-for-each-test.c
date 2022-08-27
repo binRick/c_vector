@@ -5,14 +5,14 @@
 TEST t_vector_for_each_autocast_tests(){
   {
     int outer_var = 100;
-    VECTOR_FOREACH_AUTOCAST(init_vector1(), size_t, (size_t i, size_t I){
+    vector_foreach_cast(init_vector1(), size_t, (size_t i, size_t I){
       int inner_var = outer_var + i;
       printf("[AUTOCAST size_t] Handling %lu: %lu :: outer_val:%d:inner_var:%d\n", i, I, outer_var, inner_var);
       return(((i > 2) ? -1 : 0));
     });
   }
   {
-    VECTOR_FOREACH_AUTOCAST(init_club_vector(), struct club_t *, (size_t i, struct club_t *club){
+    vector_foreach_cast(init_club_vector(), struct club_t *, (size_t i, struct club_t *club){
       printf("[AUTOCAST club_t*] Club #%lu: %s:%d\n", i, club->name, club->points);
       return(((i > 2) ? -1 : 0));
     });

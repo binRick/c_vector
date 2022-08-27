@@ -312,7 +312,7 @@ static bool _vector_set_capacity(struct Vector *vector, const size_t size){
   return(true);
 }
 
-void vector_foreach_block(struct Vector *VECTOR, vector_item_handler_block cb){
+void vector_foreach_block(struct Vector *VECTOR, int (^cb)(size_t, void *)){
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
     int b = cb(__i__, (void *)vector_get(VECTOR, __i__));
     if (b == -1) {
@@ -330,7 +330,19 @@ void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HA
   }
 }
 
-struct Vector *vector_filter_new(struct Vector *VECTOR, vector_item_filter cb){
+size_t vector_filter_size(struct Vector *VECTOR, bool (^cb)(size_t, void *)){
+  size_t qty = 0;
+
+  for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
+    if (true == cb(__i__, (void *)vector_get(VECTOR, __i__))) {
+      qty++;
+    }
+  }
+
+  return(qty);
+}
+
+struct Vector *vector_filter_new(struct Vector *VECTOR, bool (^cb)(size_t, void *)){
   struct Vector *NEW_VECTOR = vector_new();
 
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
@@ -341,7 +353,7 @@ struct Vector *vector_filter_new(struct Vector *VECTOR, vector_item_filter cb){
   return(NEW_VECTOR);
 }
 
-struct Vector *vector_filter_mut(struct Vector *VECTOR, vector_item_filter cb){
+struct Vector *vector_filter_mut(struct Vector *VECTOR, bool (^cb)(size_t, void *)){
   for (size_t __i__ = 0; __i__ < vector_size(VECTOR); __i__++) {
     if (false == cb(__i__, (void *)vector_get(VECTOR, __i__))) {
       vector_remove(VECTOR, __i__);

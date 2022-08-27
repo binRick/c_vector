@@ -3,6 +3,23 @@
 #include "vector-filter-test/vector-filter-test.h"
 ////////////////////////////////////////////
 
+TEST t_vector_filter_size_test(){
+  size_t qty0 = vector_filter_size(init_club_vector(), ^ bool (__attribute__((unused)) size_t i, void *I){
+    return((((struct club_t *)I)->points > 50) ? true : false);
+  });
+  size_t qty1 = vector_filter_size(init_club_vector(), ^ bool (__attribute__((unused)) size_t i, void *I){
+    return((((struct club_t *)I)->points > 5000) ? true : false);
+  });
+  size_t qty2 = vector_filter_size(init_club_vector(), ^ bool (__attribute__((unused)) size_t i, void *I){
+    return((((struct club_t *)I)->points > 0) ? true : false);
+  });
+
+  ASSERT_EQ(qty0, 3);
+  ASSERT_EQ(qty1, 0);
+  ASSERT_EQ(qty2, vector_size(init_club_vector()));
+  PASS();
+}
+
 TEST t_vector_filter_mut_test(){
   struct Vector *Clubs1 = init_club_vector();
   struct Vector *Clubs2 = vector_filter_mut(Clubs1, ^ bool (__attribute__((unused)) size_t i, void *I){
@@ -37,6 +54,7 @@ TEST t_vector_filter_new_test(){
 SUITE(s_vector_filter_test) {
   RUN_TEST(t_vector_filter_new_test);
   RUN_TEST(t_vector_filter_mut_test);
+  RUN_TEST(t_vector_filter_size_test);
 }
 
 GREATEST_MAIN_DEFS();
