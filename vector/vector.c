@@ -361,3 +361,10 @@ struct Vector *vector_filter_mut(struct Vector *VECTOR, bool (^cb)(size_t, void 
   }
   return(VECTOR);
 }
+struct Vector *vector_sort(struct Vector *VECTOR, int (*sort_function)(const void *I0, const void *I1)){
+  struct Vector *NEW_VECTOR = vector_new();
+
+//  qsort(ft->sorted_images, ft->sorted_images_qty, sizeof(struct file_time_t), compare_file_time_items);
+
+  return(NEW_VECTOR);
+}

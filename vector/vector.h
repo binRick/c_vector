@@ -6,11 +6,8 @@
 
 struct Vector;
 
-struct Vector *vector_sort(struct Vector *, int (*sort_function)(const void *, const void *));
-
 struct Vector *vector_new(void);
 struct Vector *vector_new_with_options(const size_t /* initial_size */, const bool /* allow_resize */);
-///////////////////////////////////////////////////////////////#
 ///////////////////////////////////////////////////////////////#
 
 bool vector_is_released(struct Vector *);
@@ -55,3 +52,5 @@ struct Vector *vector_filter_mut(struct Vector *VECTOR, bool (^cb)(size_t, void 
       return(CB((size_t)INDEX, (TYPE)ITEM));                       \
     });                                                            \
 }
+///////////////////////////////////////////////////////////////#
+struct Vector *vector_sort(struct Vector *, int (*sort_function)(const void *, const void *));
