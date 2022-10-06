@@ -27,8 +27,8 @@ if get_option('enable-binaries')
      c_args: vector_sort_test_c_args,
      install: false,
   )
-  #test('vector-sort-test', 
-  #  vector_sort_test_exec, args: ['-v','-a'],
-  #  workdir: vector_sort_test_test_dir,
-  #)
+  test('vector-sort-test', 
+    vector_sort_test_exec, args: ['-v','-a'],
+    workdir: vector_sort_test_test_dir,
+  )
 endif

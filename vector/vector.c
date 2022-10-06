@@ -1,4 +1,5 @@
 #include "vector/vector.h"
+#include <pthread.h>
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -7,21 +8,45 @@
 #include <string.h>
 #include <unistd.h>
 ///////////////////////////
+struct Vector;
 struct Vector {
-  bool   released;
-  size_t size;
-  size_t capacity;
-  void   **buffer;
-  bool   allow_resize;
+  bool            released;
+  size_t          size;
+  size_t          capacity;
+  void            **buffer;
+  bool            allow_resize;
+  struct Vector   *properties;
+  pthread_mutex_t *mutex;
 };
 ///////////////////////////
 static bool _vector_clear(struct Vector *);
 static bool _vector_set_capacity_with_buffer(struct Vector *, size_t);
 static bool _vector_set_capacity(struct Vector *, size_t);
 size_t vector_size(struct Vector *vector);
+struct Vector *vector_sort(struct Vector *VECTOR, int (*sort_function)(const void *I0, const void *I1));
+struct Vector *vector_filter_mut(struct Vector *VECTOR, bool (^cb)(size_t, void *));
+struct Vector *vector_filter_new(struct Vector *VECTOR, bool (^cb)(size_t, void *));
+void vector_foreach_block(struct Vector *VECTOR, int (^cb)(size_t, void *));
+void vector_foreach(struct Vector *VECTOR, int (*HANDLER)(size_t INDEX, void *HANDLED_ITEM));
+bool vector_lock(struct Vector *VECTOR);
+bool vector_unlock(struct Vector *VECTOR);
 ///////////////////////////
 
-struct Vector *vector_new_with_options(const size_t initial_size, const bool allow_resize){
+bool vector_lock(struct Vector *VECTOR){
+  if (!VECTOR->mutex) {
+    return(false);
+  }
+  return(pthread_mutex_lock(VECTOR->mutex) == EXIT_SUCCESS ? true : false);
+}
+
+bool vector_unlock(struct Vector *VECTOR){
+  if (!VECTOR->mutex) {
+    return(false);
+  }
+  return(pthread_mutex_unlock(VECTOR->mutex) == EXIT_SUCCESS ? true : false);
+}
+
+static struct Vector *__vector_new_with_options(const size_t initial_size, const bool allow_resize, const bool properties){
   size_t size = 1;
 
   if (initial_size > 0) {
@@ -34,9 +59,15 @@ struct Vector *vector_new_with_options(const size_t initial_size, const bool all
     return(NULL);
   }
 
-  vector->released = false;
-  vector->size     = 0;
-  vector->capacity = size;
+  vector->released   = false;
+  vector->size       = 0;
+  vector->capacity   = size;
+  vector->properties = NULL;
+  vector->mutex      = calloc(1, sizeof(pthread_mutex_t));
+  pthread_mutex_init(vector->mutex, NULL);
+  if (properties) {
+    vector->properties = __vector_new_with_options(true, true, false);
+  }
 
   vector->buffer = NULL;
   if (!_vector_clear(vector)) {
@@ -48,6 +79,10 @@ struct Vector *vector_new_with_options(const size_t initial_size, const bool all
   vector->allow_resize = allow_resize;
 
   return(vector);
+}
+
+struct Vector *vector_new_with_options(const size_t initial_size, const bool allow_resize){
+  return(__vector_new_with_options(initial_size, allow_resize, true));
 }
 
 struct Vector *vector_new(){
@@ -95,6 +130,12 @@ void vector_release(struct Vector *vector){
   if (vector->buffer != NULL) {
     free(vector->buffer);
     vector->buffer = NULL;
+  }
+  if (vector->mutex) {
+    free(vector->mutex);
+  }
+  if (vector->properties) {
+    vector_release(vector->properties);
   }
 
   vector->released = true;
@@ -365,6 +406,5 @@ struct Vector *vector_sort(struct Vector *VECTOR, int (*sort_function)(const voi
   struct Vector *NEW_VECTOR = vector_new();
 
 //  qsort(ft->sorted_images, ft->sorted_images_qty, sizeof(struct file_time_t), compare_file_time_items);
-
   return(NEW_VECTOR);
 }
