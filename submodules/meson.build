@@ -1,4 +1,28 @@
 ##subdir('c_deps/meson/osx')
+hash_srcs = [files(
+  '../submodules/hash/hash.c',
+)]
+
+hash_dirs = [
+  '../submodules/hash',
+  inc,
+]
+
+hash_deps = [
+
+]
+
+hash_lib =library('hash',
+  hash_srcs,
+  install: false,
+  dependencies: hash_deps,
+  include_directories: hash_dirs,
+)
+
+hash_dep = declare_dependency(
+  include_directories: hash_dirs,
+  link_with: hash_lib,
+)
 #subdir('c_deps/meson/deps/cargs')
 #subdir('c_deps/meson/deps/module')
 #subdir('c_deps/meson/deps/str-flatten.c')
@@ -13,10 +37,10 @@
 #subdir('c_deps/meson/deps/c_stringfn')
 #subdir('c_deps/meson/deps/c_fsio')
 #subdir('c_deps/meson/deps/c_forever')
-subdir('c_deps/meson/deps/parson')
+#subdir('c_deps/meson/deps/parson')
 #subdir('c_deps/meson/deps/bytes')
-subdir('c_deps/meson/deps/c_greatest')
-subdir('c_deps/meson/deps/debug-memory')
+#subdir('c_deps/meson/deps/c_greatest')
+#subdir('c_deps/meson/deps/debug-memory')
 #subdir('c_deps/meson/deps/log.h')
 #subdir('c_deps/meson/deps/timestamp')
 #subdir('c_deps/meson/deps/c_dbg')
@@ -25,3 +49,44 @@ subdir('c_deps/meson/deps/debug-memory')
 #subdir('c_deps/meson/deps/ms')
 #subdir('c_deps/meson/deps/hidapi')
 #subdir('c_deps/submodules/c_ansi/ansi-codes')
+c_greatest_system_headers = [
+
+]
+c_greatest_local_headers = [
+  'c_greatest/greatest/greatest.h',
+]
+c_greatest_srcs = [
+
+]
+
+c_greatest_dirs = [
+  '../submodules/c_greatest',
+  inc,
+]
+
+c_greatest_deps = [
+
+]
+
+if c_greatest_srcs.length() > 0
+  c_greatest_lib =library('c_greatest',
+    files(c_greatest_srcs),
+    install: false,
+    dependencies: c_greatest_deps,
+    include_directories: c_greatest_dirs,
+  )
+  c_greatest_links = [c_greatest_lib]
+else
+  c_greatest_links = []
+endif
+
+c_greatest_dep = declare_dependency(
+  include_directories: c_greatest_dirs,
+  link_with: c_greatest_links,
+)
+module_dep = declare_dependency(
+  include_directories: [
+    '../submodules/module',
+  ],
+  link_with: [],
+)

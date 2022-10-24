@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __VECTOR_H
+#define __VECTOR_H
 ///////////////////////////////////////////////////////////////#
 #include <stdbool.h>
 #include <stddef.h>
@@ -23,6 +25,7 @@ bool vector_ensure_capacity(struct Vector *, const size_t /* size */);
 bool vector_shrink(struct Vector *);
 
 void **vector_to_array(struct Vector *);
+struct Vector *vector_from_array(void **items, size_t item_bytes, size_t qty);
 
 bool vector_push(struct Vector *, void *);
 void *vector_pop(struct Vector *);
@@ -54,3 +57,11 @@ struct Vector *vector_filter_mut(struct Vector *VECTOR, bool (^cb)(size_t, void 
 }
 ///////////////////////////////////////////////////////////////#
 struct Vector *vector_sort(struct Vector *, int (*sort_function)(const void *, const void *));
+
+#include "hash/hash.h"
+hash_t *vector_to_hash_values(struct Vector *);
+struct Vector *hash_keys_to_vector(hash_t *h);
+struct Vector *hash_values_to_vector(hash_t *h);
+
+
+#endif

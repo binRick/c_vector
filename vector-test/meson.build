@@ -9,7 +9,6 @@ vector_test_include_dirs = [
 vector_test_deps = [
   c_greatest_dep,
   c_vector_dep,
-  debug_memory_dep,
 ]
 vector_test_c_args = [
 ]

@@ -8,9 +8,11 @@ c_vector_dirs = [
   inc,
 ]
 c_vector_deps = [
+  hash_dep,
 ]
 c_vector_libs = []
 c_vector_c_args = [
+  #//  '--no-unused-but-set-variable',
 ]
 c_vector_link_args = [
 ]
@@ -21,6 +23,7 @@ c_vector_lib = static_library('vector',
   install: false,
   dependencies: c_vector_deps,
   include_directories: c_vector_dirs,
+  c_args: c_vector_c_args,
 )
 c_vector_dep = declare_dependency(
   include_directories: c_vector_dirs,

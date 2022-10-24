@@ -1,5 +1,5 @@
 #include "c_greatest/greatest/greatest.h"
-#include "c_vector/vector-for-each-test/vector-for-each-test.h"
+#include "vector-for-each-test/vector-for-each-test.h"
 ////////////////////////////////////////////
 
 TEST t_vector_for_each_autocast_tests(){

@@ -32,6 +32,15 @@ bool vector_lock(struct Vector *VECTOR);
 bool vector_unlock(struct Vector *VECTOR);
 ///////////////////////////
 
+struct Vector *vector_from_array(void **items, size_t item_bytes, size_t qty){
+  struct Vector *v = vector_new();
+
+  for (size_t i = 0; i < qty; i++) {
+    //vector_push(v,(void*)I);
+  }
+  return(v);
+}
+
 bool vector_lock(struct Vector *VECTOR){
   if (!VECTOR->mutex) {
     return(false);
@@ -407,4 +416,29 @@ struct Vector *vector_sort(struct Vector *VECTOR, int (*sort_function)(const voi
 
 //  qsort(ft->sorted_images, ft->sorted_images_qty, sizeof(struct file_time_t), compare_file_time_items);
   return(NEW_VECTOR);
+}
+
+#include "hash/hash.h"
+
+hash_t *vector_to_hash_values(struct Vector *v){
+  hash_t *h = hash_new();
+  char *n;
+  for(size_t i=0;i<vector_size(v);i++){
+    asprintf(&n,"%lu",i);
+    hash_set(h,strdup(n),(void*)(vector_get(v,i)));
+  }
+  if(n)free(n);
+  return(h);
+}
+
+struct Vector *hash_keys_to_vector(hash_t *h){
+  struct Vector *v = vector_new();
+  hash_each(h,{vector_push(v,(void*)key);});
+  return(v);
+}
+
+struct Vector *hash_values_to_vector(hash_t *h){
+  struct Vector *v = vector_new();
+  hash_each(h,{vector_push(v,(void*)val);});
+  return(v);
 }

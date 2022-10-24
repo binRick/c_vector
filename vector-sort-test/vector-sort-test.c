@@ -1,5 +1,5 @@
 #include "c_greatest/greatest/greatest.h"
-#include "c_vector/vector/vector.h"
+#include "vector/vector.h"
 #include "vector-sort-test/vector-sort-test.h"
 #include "vector-test-utils/vector-test-utils.h"
 

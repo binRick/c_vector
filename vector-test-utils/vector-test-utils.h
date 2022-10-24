@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __TEST_H__
 #define __TEST_H__
-#include "c_vector/vector/vector.h"
+#include "vector/vector.h"
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>

@@ -1,4 +1,4 @@
-#include "c_vector/vector/vector.h"
+#include "vector/vector.h"
 #include "vector-test-utils/vector-test-utils.h"
 #include <stdio.h>
 #include <stdlib.h>

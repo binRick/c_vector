@@ -21,5 +21,5 @@
 #include <termios.h>
 #include <unistd.h>
 //////////////////////////////////////
-#include "c_vector/vector-test-utils/vector-test-utils.h"
-#include "c_vector/vector/vector.h"
+#include "vector-test-utils/vector-test-utils.h"
+#include "vector/vector.h"
