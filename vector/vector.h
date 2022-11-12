@@ -63,5 +63,28 @@ hash_t *vector_to_hash_values(struct Vector *);
 struct Vector *hash_keys_to_vector(hash_t *h);
 struct Vector *hash_values_to_vector(hash_t *h);
 
+#define vector_each_index_item(self,INDEX,item_type,ITEM,block){ \
+  for(size_t INDEX=0;INDEX<vector_size(self);INDEX++){\
+    item_type ITEM = (item_type)(vector_get(self,INDEX));\
+    block;\
+    \
+  }\
+}
+
+#define vector_each_item(self,item_type,ITEM,block){ \
+  for(size_t i=0;i<vector_size(self);i++){\
+    item_type ITEM = (item_type)(vector_get(self,i));\
+    block;\
+    \
+  }\
+}
+
+#define vector_each(self,item_type,block){ \
+  for(size_t i=0;i<vector_size(self);i++){\
+    item_type item = (item_type)(vector_get(self,i));\
+    block;\
+    \
+  }\
+}
 
 #endif
