@@ -2,6 +2,11 @@
 #include "vector.h"
 #include <stdlib.h>
 
+void benchmark_impl(){
+  struct Vector *vector = vector_new();
+
+
+}
 void test_impl(){
   struct Vector *vector = vector_new();
 
@@ -28,5 +33,10 @@ void test_impl(){
 }
 
 int main(){
-  test_run(test_impl);
+  if(getenv("BENCHMARK_QTY"))
+    if(getenv("BENCHMARK_ITEMS"))
+      benchmark_impl();
+  else
+    test_run(test_impl);
+  exit(0);
 }

@@ -417,9 +417,7 @@ struct Vector *vector_sort(struct Vector *VECTOR, int (*sort_function)(const voi
 //  qsort(ft->sorted_images, ft->sorted_images_qty, sizeof(struct file_time_t), compare_file_time_items);
   return(NEW_VECTOR);
 }
-
-#include "hash/hash.h"
-
+/*
 hash_t *vector_to_hash_values(struct Vector *v){
   hash_t *h = hash_new();
   char *n;
@@ -442,3 +440,4 @@ struct Vector *hash_values_to_vector(hash_t *h){
   hash_each(h,{vector_push(v,(void*)val);});
   return(v);
 }
+*/

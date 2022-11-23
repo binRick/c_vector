@@ -4,6 +4,7 @@
 ///////////////////////////////////////////////////////////////#
 #include <stdbool.h>
 #include <stddef.h>
+//#include "hash/hash.h"
 ///////////////////////////////////////////////////////////////#
 
 struct Vector;
@@ -58,10 +59,10 @@ struct Vector *vector_filter_mut(struct Vector *VECTOR, bool (^cb)(size_t, void 
 ///////////////////////////////////////////////////////////////#
 struct Vector *vector_sort(struct Vector *, int (*sort_function)(const void *, const void *));
 
-#include "hash/hash.h"
-hash_t *vector_to_hash_values(struct Vector *);
+/*hash_t *vector_to_hash_values(struct Vector *);
 struct Vector *hash_keys_to_vector(hash_t *h);
 struct Vector *hash_values_to_vector(hash_t *h);
+*/
 
 #define vector_each_index_item(self,INDEX,item_type,ITEM,block){ \
   for(size_t INDEX=0;INDEX<vector_size(self);INDEX++){\

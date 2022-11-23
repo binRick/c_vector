@@ -10,6 +10,7 @@ vector_basic_test_deps = [
   c_greatest_dep,
   c_vector_dep,
   vector_test_utils_dep,
+  timestamp_dep,ms_dep,bytes_dep,
 ]
 vector_basic_test_c_args = [
 ]

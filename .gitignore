@@ -11,3 +11,5 @@ build
 build-muon
 .meson.build*.log
 .meson-build*.log
+.DS_Store
+*.DS_Store

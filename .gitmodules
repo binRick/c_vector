@@ -1,3 +1,15 @@
 [submodule "submodules/hash"]
 	path = submodules/hash
 	url = https://github.com/clibs/hash
+[submodule "submodules/ck"]
+	path = submodules/ck
+	url = https://github.com/concurrencykit/ck
+[submodule "submodules/timestamp"]
+	path = submodules/timestamp
+	url = https://github.com/clibs/timestamp
+[submodule "submodules/ms"]
+	path = submodules/ms
+	url = https://github.com/clibs/ms
+[submodule "submodules/bytes"]
+	path = submodules/bytes
+	url = https://github.com/clibs/bytes
